@@ -34,7 +34,11 @@ public class DynamicTableModel <T> extends AbstractTableModel
 	private List<T> selectedObjects;
 	private List<T> sourceList;
 	private JTable table;
-	
+	private void debugJustInCase(String message) {
+		if (logger.isDebugEnabled()) {
+			logger.info(message);
+		}
+	}
 	public DynamicTableModel(List<DynamicTableColumn> columns) {
 		super();
 		this.sourceList = new ArrayList<T>();
@@ -62,8 +66,8 @@ public class DynamicTableModel <T> extends AbstractTableModel
 	public synchronized void addAll(Collection<T> srcList){
 		this.sourceList.clear();
 		this.sourceList.addAll(srcList);
-		logger.info("add_all_called");
-		logger.info("add_all_called:"+this.getRowCount() );
+		debugJustInCase("add_all_called");
+		debugJustInCase("add_all_called:"+this.getRowCount() );
 		this.fireTableDataChanged();
 		if (this.getRowCount() > 0){
 			SwingUtilities.invokeLater(new Runnable() {
@@ -163,7 +167,7 @@ public class DynamicTableModel <T> extends AbstractTableModel
 	 * @see javax.swing.table.TableModel#getValueAt(int, int)
 	 */
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		logger.info("get_value_at_called");
+		debugJustInCase("get_value_at_called");
 		T currentObject = this.sourceList.get(rowIndex);
 		Object valueObject = null;
 		try {
@@ -174,8 +178,8 @@ public class DynamicTableModel <T> extends AbstractTableModel
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		logger.info("valueObject:"+valueObject);
-		logger.info("get_value_at_finished");
+		debugJustInCase("valueObject:"+valueObject);
+		debugJustInCase("get_value_at_finished");
 		return valueObject;
 	}
 
