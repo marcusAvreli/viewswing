@@ -12,6 +12,7 @@ import javax.swing.JScrollPane;
 
 import viewswing.swing.builder.component.ButtonBuilder;
 import viewswing.swing.builder.component.ComponentBuilderAware;
+import viewswing.swing.builder.component.DynamicTableBuilder;
 import viewswing.swing.builder.component.JComponentBuilder;
 import viewswing.swing.builder.component.LabelBuilder;
 
@@ -166,6 +167,23 @@ public class SwingBuilder implements ContainerBuilder<JPanel>,ComponentBuilderAw
 		JComponentBuilder<T> builder = 
 			new JComponentBuilder<T>(this,component,clazz);
 		this.mainPanel.add(builder.getTarget(),constraints);
+		return builder;
+	}
+	/* (non-Javadoc)
+	 * @see org.viewaframework.widget.swing.builder.component.ComponentBuilderAware#dynamicTable(java.lang.Class)
+	 */
+	public <T> DynamicTableBuilder<T> dynamicTable(Class<T> clazz) {
+		DynamicTableBuilder<T> builder = new DynamicTableBuilder<T>(this,clazz);
+		this.mainPanel.add(new JScrollPane(builder.getTarget()),BorderLayout.CENTER);
+		return builder;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.viewaframework.widget.swing.builder.component.ComponentBuilderAware#dynamicTable(java.lang.Class, java.lang.Object)
+	 */
+	public <T> DynamicTableBuilder<T> dynamicTable(Class<T> clazz,Object constraints) {
+		DynamicTableBuilder<T> builder = new DynamicTableBuilder<T>(this,clazz);
+		this.mainPanel.add(new JScrollPane(builder.getTarget()),constraints);
 		return builder;
 	}
 
